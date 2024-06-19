@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WriteFile {
-    public void existOrCreateFile(File file, HashMap<Integer, Product> ProductList,boolean purchase) {
+public class FileHandler {
+    public void existOrCreateFileAndWrite(File file, HashMap<Integer, Product> ProductList, boolean purchase) {
         try {
             if (file.createNewFile()) {
                 System.out.println("File created: " + file.getName());

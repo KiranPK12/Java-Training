@@ -22,8 +22,9 @@ public class UpdatePrice {
                     if (i=='o'){
                         ProductList.put(targetId,ProductList.get(targetId).setPrice(newPrice));
                     }else{
-                        ProductList.put(targetId,(ProductList.get(targetId).setPrice(ProductList.get(targetId).getStock()+newPrice)));
-                    }                    System.out.println("Price updated in ID "+targetId);
+                        ProductList.put(targetId,(ProductList.get(targetId).setPrice(ProductList.get(targetId).getPrice()+newPrice)));
+                    }
+                    System.out.println("Price updated in ID "+targetId);
                 }
             }
         }

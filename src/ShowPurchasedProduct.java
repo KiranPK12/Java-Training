@@ -9,5 +9,8 @@ public class ShowPurchasedProduct {
         }
     }
     public  void Display(Product p){
+        System.out.println("=========================");
         System.out.printf("Product Details:%nName: %s%nPrice: %d%nStock: %d%n",p.getName(),p.getPrice(),p.getStock());
+        System.out.println("=========================");
+
     }}
