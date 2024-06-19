@@ -15,7 +15,6 @@ public class WriteFile {
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }finally {
             try {
                 FileWriter myWriter = new FileWriter(file.getName());
@@ -42,7 +41,6 @@ public class WriteFile {
                 }
             } catch (IOException e) {
                 System.out.println("An error occurred.");
-                e.printStackTrace();
             }
         }
     }
