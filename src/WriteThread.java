@@ -21,6 +21,8 @@ class WriteThread extends Thread{
     }
     @Override
      public  void  run(){
+//        System.out.println("Write thread started");
         writeFile.existOrCreateFileAndWrite(file,ProductList,purchase);
+//        System.out.println("write thread completed");
     }
 }

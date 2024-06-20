@@ -11,7 +11,7 @@ public class Main {
         HashMap<Integer, Product> PurchaseList = new HashMap<>();
         File prodFile = new File("Product.txt");
         File purchaseFile = new File("Purchase.txt");
-        ReadThread readProdData = new ReadThread(fileHandler, prodFile, ProductList);
+        ReadThread readProdData = new ReadThread(fileHandler, prodFile, ProductList,false);
         ReadThread readPurchaseData = new ReadThread(fileHandler, purchaseFile, PurchaseList, true);
         readProdData.start();
         readPurchaseData.start();

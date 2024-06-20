@@ -14,18 +14,14 @@ class ReadThread extends Thread{
         readList=pl;
         isPurchase=p;
     }
-    ReadThread(FileHandler wp, File f, HashMap<Integer, Product> pl){
-        readFile=wp;
-        file=f;
-        readList=pl;
-
-    }
     @Override
     public  void  run(){
+//        System.out.println("Read thread started");
         try {
             readFile.readExistingFileData(file,readList,isPurchase);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+//        System.out.println("Read thread completed");
     }
 }
