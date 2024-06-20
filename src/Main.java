@@ -8,15 +8,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         FileHandler fileHandler = new FileHandler();
         HashMap<Integer, Product> ProductList = new HashMap<>();
-        HashMap<Integer, Product> PurchaseList = new HashMap<>();
+        HashMap<Integer, Purchase> PurchaseList = new HashMap<>();
         File prodFile = new File("Product.txt");
         File purchaseFile = new File("Purchase.txt");
-        ReadThread readProdData = new ReadThread(fileHandler, prodFile, ProductList,false);
-        ReadThread readPurchaseData = new ReadThread(fileHandler, purchaseFile, PurchaseList, true);
+        ReadProdThread readProdData = new ReadProdThread(fileHandler, prodFile, ProductList);
+        ReadPurchaseThread readPurchaseData = new ReadPurchaseThread(fileHandler,purchaseFile,PurchaseList);
+//        ReadThread readPurchaseData = new ReadThread(fileHandler, purchaseFile, ProductList);
         readProdData.start();
         readPurchaseData.start();
 //        fileHandler.readExistingFileData(prodFile, ProductList, false);
-        fileHandler.readExistingFileData(purchaseFile, PurchaseList, true);
+//        fileHandler.readExistingProdFile(purchaseFile, PurchaseList, true);
 
         AddProduct addProd = new AddProduct();
         ViewProduct viewProd = new ViewProduct();
@@ -30,8 +31,8 @@ public class Main {
         try {
             char val;
             do {
-                WriteThread prodWriteThread = new WriteThread(fileHandler, prodFile, ProductList);
-                WriteThread purchaseWriteThread = new WriteThread(fileHandler, purchaseFile, PurchaseList, true);
+                WriteProdThread prodWriteThread = new WriteProdThread(fileHandler, prodFile, ProductList);
+                WritePurchaseThread purchaseWriteThread = new WritePurchaseThread(fileHandler, purchaseFile, PurchaseList);
                 System.out.println("1.Enter the Product\n2.View the Product\n3.View all products\n4.Update Stock\n5.Update price\n6.Purchase product\n7.Show purchased Product\n8.Delete Product/Revert Delete\n9.Exit");
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
