@@ -1,30 +1,43 @@
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class UpdatePrice {
-    public void UpdateProdPrice(HashMap<Integer, Product> ProductList){
+    public void UpdateProdPrice(HashMap<Integer, Product> ProductList) {
         Scanner sc = new Scanner(System.in);
-        if (ProductList.isEmpty()){
+        MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
+        MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
+        MongoCollection<Document> productCollection = db.getCollection("Products");
+
+        if (productCollection.countDocuments() == 0) {
             System.out.println("No products exists");
-        }else{
+        } else {
             System.out.println("Enter the Id to update price: ");
-            int targetId=sc.nextInt();
-            if (targetId<0||targetId>ProductList.size()||ProductList.get(targetId).getIsFlaged()){
+            String targetId = sc.nextLine().toUpperCase();
+            Document filter = new Document("prod_id", targetId);
+            Document existingProduct = productCollection.find(filter).first();
+            if (existingProduct == null || Boolean.parseBoolean(existingProduct.getString("soft_delete"))) {
                 System.out.println("Invalid Product ID");
-            }else{
+            } else {
+                int existingPrice = existingProduct.getInteger("prod_price");
                 System.out.println("Enter the new price: ");
                 int newPrice = sc.nextInt();
-                if (newPrice<0){
+                if (newPrice < 0) {
                     System.out.println("Invalid Pricing");
-                }else{
+                } else {
                     System.out.println("Do you want to Override or Increment? type 'o' for override , 'i' for increment");
                     char i = sc.next().charAt(0);
-                    if (i=='o'){
-                        ProductList.put(targetId,ProductList.get(targetId).setPrice(newPrice));
-                    }else{
-                        ProductList.put(targetId,(ProductList.get(targetId).setPrice(ProductList.get(targetId).getPrice()+newPrice)));
+                    if (i == 'o') {
+                        Document updateDoc = new Document("$set", new Document("prod_price", newPrice));
+                        productCollection.updateOne(filter, updateDoc);
+                    } else {
+                        Document updateDoc = new Document("$set", new Document("prod_price", newPrice + existingPrice));
+                        productCollection.updateOne(filter, updateDoc);
                     }
-                    System.out.println("Price updated in ID "+targetId);
+                    System.out.println("Price updated in ID " + targetId);
                 }
             }
         }
