@@ -12,7 +12,7 @@ import java.util.Scanner;
 class AddProduct {
     Scanner sc = new Scanner(System.in);
 
-    public void getProductDetails(HashMap<Integer, Product> ProductList) {
+    public void getProductDetails() {
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         try {
             MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
@@ -33,7 +33,7 @@ class AddProduct {
                 String category;
                 int count = 0;
                 Map<String, String> categoryMap = new HashMap<>();
-                try (MongoCursor<Document> cursor = categoryCollection.find().iterator();) {
+                try (MongoCursor<Document> cursor = categoryCollection.find().iterator()) {
                     while (cursor.hasNext()) {
                         Document document = cursor.next();
                         String categoryName = document.getString("category_name");
@@ -50,7 +50,7 @@ class AddProduct {
                         System.out.println(entry.getKey());
                     }
                     category = sc.nextLine().toLowerCase();
-                    try (MongoCursor<Document> cursor = productCollection.find().iterator();) {
+                    try (MongoCursor<Document> cursor = productCollection.find().iterator()) {
                         while (cursor.hasNext()) {
                             Document document = cursor.next();
                             count += 1;

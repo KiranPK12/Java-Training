@@ -2,11 +2,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class UpdatePrice {
-    public void UpdateProdPrice(HashMap<Integer, Product> ProductList) {
+    public void UpdateProdPrice() {
         Scanner sc = new Scanner(System.in);
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");

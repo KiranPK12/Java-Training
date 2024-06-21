@@ -2,11 +2,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class UpdateStock {
-    public void UpdateStockCount(HashMap<Integer, Product> ProductList) {
+    public void UpdateStockCount() {
         Scanner sc = new Scanner(System.in);
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");

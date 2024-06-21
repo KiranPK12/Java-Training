@@ -2,10 +2,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import java.util.HashMap;
 
 public class GetAllProducts {
-    public void getAllProduct(HashMap<Integer, Product> ProductList) {
+    public void getAllProduct() {
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
         MongoCollection<Document> productCollection = db.getCollection("Products");
@@ -31,7 +30,6 @@ public class GetAllProducts {
                         System.out.println();
                     }
                 }
-                ;
             }
         }
     }
