@@ -1,10 +1,9 @@
-import java.io.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerSingleton.getInstance();
         AddProduct addProd = new AddProduct();
         ViewProduct viewProd = new ViewProduct();
         GetAllProducts getAllProd = new GetAllProducts();
@@ -16,10 +15,21 @@ public class Main {
         Category categoryHandling = new Category();
         try {
             char val;
+            boolean validInput = false;
+            int choice = -1;
             do {
-                System.out.println("1.Enter the Product\n2.View the Product\n3.View all products\n4.Update Stock\n5.Update price\n6.Purchase product\n7.Show purchased Product\n8.Delete Product/Revert Delete\n9.Create Category\n10.Exit");
-                System.out.print("Enter your choice: ");
-                int choice = sc.nextInt();
+                while (!validInput) {
+                    try {
+                        System.out.println("1.Enter the Product\n2.View the Product\n3.View all products\n4.Update Stock\n5.Update price\n6.Purchase product\n7.Show purchased Product\n8.Delete Product/Revert Delete\n9.Create Category\n10.Exit");
+                        System.out.print("Enter your choice: ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+                        validInput = true; // Exit loop if input is valid
+                    } catch (Exception e) {
+                        System.out.println("Invalid input. Please enter a number between 1 and 10.");
+                        sc.nextLine();
+                    }
+                }
                 switch (choice) {
                     case 1:
                         addProd.getProductDetails();
@@ -56,10 +66,12 @@ public class Main {
                         break;
                 }
                 System.out.print("Do you want to continue. If yes Press 'y' otherwise any key: ");
-                val = sc.next().charAt(0);
+                val = sc.nextLine().charAt(0);
             } while (val == 'y');
         } catch (Exception error) {
             System.err.println("Enter Valid Inputs");
+            sc.nextLine();
+            error.printStackTrace();
         }
         sc.close();
     }

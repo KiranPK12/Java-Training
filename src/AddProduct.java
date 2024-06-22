@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 class AddProduct {
-    Scanner sc = new Scanner(System.in);
+
+    Scanner sc = ScannerSingleton.getInstance();
 
     public void getProductDetails() {
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
@@ -72,6 +73,7 @@ class AddProduct {
                 InputMismatchException e) {
             System.out.println("Enter valid inputs like product name , stock count and price");
             sc.nextLine();
+//            sc.close();
         }
     }
 }

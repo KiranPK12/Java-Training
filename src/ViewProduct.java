@@ -2,11 +2,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+
 import java.util.Scanner;
 
 public class ViewProduct {
     public void viewProduct() {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerSingleton.getInstance();
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
 

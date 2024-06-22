@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class UpdateStock {
     public void UpdateStockCount() {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerSingleton.getInstance();
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
         MongoCollection<Document> productCollection = db.getCollection("Products");
@@ -23,19 +23,24 @@ public class UpdateStock {
                 int existingQuantity = existingProduct.getInteger("prod_quantity");
                 System.out.println("Enter the new stock: ");
                 int newStockCount = sc.nextInt();
+                sc.nextLine();
                 if (newStockCount < 0) {
-                    System.out.println("Atleast one product need to be added");
+                    System.out.println("At least one product need to be added");
                 } else {
                     System.out.println("Do you want to Override or Increment? type 'o' for override , 'i' for increment");
-                    char i = sc.next().charAt(0);
-                    if (i == 'o') {
-                        Document updateDoc = new Document("$set", new Document("prod_quantity", newStockCount));
-                        productCollection.updateOne(filter, updateDoc);
+                    String input = sc.nextLine().trim();
+                    if (input.isEmpty() ) {
+                        System.out.println("Invalid Options");
                     } else {
-                        Document updateDoc = new Document("$set", new Document("prod_quantity", newStockCount + existingQuantity));
+                        Document updateDoc;
+                        if (input.charAt(0) == 'o') {
+                            updateDoc = new Document("$set", new Document("prod_quantity", newStockCount));
+                        } else {
+                            updateDoc = new Document("$set", new Document("prod_quantity", newStockCount + existingQuantity));
+                        }
                         productCollection.updateOne(filter, updateDoc);
+                        System.out.println("Price updated in ID " + targetId);
                     }
-                    System.out.println("Price updated in ID " + targetId);
                 }
             }
         }

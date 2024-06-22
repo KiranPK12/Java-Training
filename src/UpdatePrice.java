@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class UpdatePrice {
     public void UpdateProdPrice() {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerSingleton.getInstance();
         MongoDBSingleton mongoSingleton = MongoDBSingleton.getInstance();
         MongoDatabase db = mongoSingleton.getDatabase("ProductManagement");
         MongoCollection<Document> productCollection = db.getCollection("Products");
@@ -24,19 +24,24 @@ public class UpdatePrice {
                 int existingPrice = existingProduct.getInteger("prod_price");
                 System.out.println("Enter the new price: ");
                 int newPrice = sc.nextInt();
+                sc.nextLine();
                 if (newPrice < 0) {
                     System.out.println("Invalid Pricing");
                 } else {
                     System.out.println("Do you want to Override or Increment? type 'o' for override , 'i' for increment");
-                    char i = sc.next().charAt(0);
-                    if (i == 'o') {
-                        Document updateDoc = new Document("$set", new Document("prod_price", newPrice));
-                        productCollection.updateOne(filter, updateDoc);
+                    String input = sc.nextLine().trim();
+                    if (input.isEmpty()) {
+                        System.out.println("Invalid Options");
                     } else {
-                        Document updateDoc = new Document("$set", new Document("prod_price", newPrice + existingPrice));
+                        Document updateDoc;
+                        if (input.charAt(0) == 'o') {
+                            updateDoc = new Document("$set", new Document("prod_price", newPrice));
+                        } else {
+                            updateDoc = new Document("$set", new Document("prod_price", newPrice + existingPrice));
+                        }
                         productCollection.updateOne(filter, updateDoc);
+                        System.out.println("Price updated in ID " + targetId);
                     }
-                    System.out.println("Price updated in ID " + targetId);
                 }
             }
         }
